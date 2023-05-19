@@ -1,0 +1,17 @@
+.max_width_base {
+	max-width: 100vw;
+	display: flex;
+	justify-content: center;
+}
+.max_inner_width {
+	width: 100%;
+	max-width: 1170px;
+}
+
+.page_container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	width: 100%;
+}

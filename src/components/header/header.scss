@@ -1,0 +1,140 @@
+@import "../../variables.scss";
+@import "../../responsive.scss";
+
+.header {
+	background-color: #f7f7f7;
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	.header_Content {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		align-items: center;
+		justify-content: space-between;
+		width: 1170px;
+
+		.logoHolder {
+			img {
+				width: 200px;
+				height: 60px;
+			}
+		}
+
+		.ecommerseCatalogSearchHolder {
+			display: flex;
+			align-items: center;
+
+			.searchHolder {
+				position: relative;
+
+				.searchHolder__input {
+					width: 500px;
+					height: 30px;
+					padding: 5px;
+					border: 1px solid #ccc;
+					font-size: 14px;
+				}
+
+				.searchHolder__icon {
+					position: absolute;
+					top: 50%;
+					right: 5px;
+					transform: translateY(-50%);
+					cursor: pointer;
+				}
+			}
+		}
+
+		.ecommerseCatalog {
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+
+			.header__item {
+				margin-left: 10px;
+
+				.no_decoration {
+					text-decoration: none;
+				}
+
+				.primary_button {
+					background-color: #51aa1b;
+					color: #fff;
+					padding: 8px 16px;
+					border: none;
+					font-size: 14px;
+					cursor: pointer;
+				}
+
+				.outline_button {
+					background-color: transparent;
+					color: #51aa1b;
+					padding: 8px 16px;
+					border: 1px solid #51aa1b;
+					font-size: 14px;
+					cursor: pointer;
+				}
+
+				.cart,
+				.wishlist,
+				.user {
+					position: relative;
+
+					i {
+						font-size: 18px;
+					}
+
+					.cart__number,
+					.wishlist__number {
+						position: absolute;
+						top: -8px;
+						right: -8px;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						width: 20px;
+						height: 20px;
+						border-radius: 50%;
+						background-color: #51aa1b;
+						color: #fff;
+						font-size: 12px;
+					}
+				}
+			}
+		}
+	}
+
+	@media (max-width: 768px) {
+		.header_Content {
+			flex-wrap: wrap;
+
+			.logoHolder {
+				margin-bottom: 10px;
+			}
+
+			.ecommerseCatalogSearchHolder {
+				flex-basis: 100%;
+
+				.searchHolder {
+					width: 100%;
+
+					.searchHolder__input {
+						width: 100%;
+					}
+				}
+			}
+
+			.ecommerseCatalog {
+				justify-content: flex-end;
+				flex-basis: 100%;
+				margin-top: 10px;
+
+				.header__item {
+					margin-left: 5px;
+				}
+			}
+		}
+	}
+}
