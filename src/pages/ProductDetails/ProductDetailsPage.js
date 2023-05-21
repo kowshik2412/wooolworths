@@ -4,7 +4,6 @@ import {
     loadStorage,
     saveStorage,
 } from "../../utils/persistLocalStorage";
-import { getProduct, getProductReviews, postProductReview } from "../../apis/product.api";
 import Header from "../../components/header/Header";
 import './productDetails.scss';
 import { useNavigate } from "react-router-dom";

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase.config.js';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { loginUser } from "../../apis/auth.api";
 import { loadStorage, saveStorage } from "../../utils/persistLocalStorage";
 import './auth.scss';
 import { toast } from 'react-toastify';

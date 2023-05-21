@@ -5,9 +5,7 @@ import './homePage.scss';
 import { loadStorage } from "../../utils/persistLocalStorage";
 import Carousal from '../../components/carousalHome/Carousal';
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { getCategories } from "../../apis/category.api";
 import Header from "../../components/header/Header";
-import { getProducts } from "../../apis/product.api";
 import useGetCategories from "../../hooks/useGetCategories";
 import useGetProducts from "../../hooks/useGetProducts";
 

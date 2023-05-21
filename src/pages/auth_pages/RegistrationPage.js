@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { loadStorage } from '../../utils/persistLocalStorage';
 import { useNavigate } from 'react-router-dom';
-import { registerUser } from '../../apis/auth.api';
 
 function RegistrationPage() {
 	const user = loadStorage("user");
@@ -26,14 +25,14 @@ function RegistrationPage() {
 			return;
 		}
 
-		registerUser({ username, email, name, password })
-			.then((res) => {
-				console.log(res);
-				navigate("/login");
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		// registerUser({ username, email, name, password })
+		// 	.then((res) => {
+		// 		console.log(res);
+		// 		navigate("/login");
+		// 	})
+		// 	.catch((err) => {
+		// 		console.log(err);
+		// 	});
 	};
 
 	return (

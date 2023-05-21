@@ -3,7 +3,6 @@ import './profilePage.scss';
 import Header from '../../components/header/Header';
 import { delStorage, loadStorage, saveStorage } from '../../utils/persistLocalStorage';
 import { useNavigate } from 'react-router';
-import { getSingleUser } from '../../apis/user.api';
 
 const ProfilePage = () => {
 	const user = loadStorage("user");
