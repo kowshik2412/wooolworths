@@ -4,17 +4,59 @@ import { motion } from "framer-motion";
 import './homePage.scss';
 import { loadStorage } from "../../utils/persistLocalStorage";
 import Carousal from '../../components/carousalHome/Carousal';
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { getCategories } from "../../apis/category.api";
 import Header from "../../components/header/Header";
-import useGetCategories from "../../hooks/useGetCategories";
-import useGetProducts from "../../hooks/useGetProducts";
+import { getProducts } from "../../apis/product.api";
 
 function HomePage() {
 	const user = loadStorage("user");
+	const accessToken = loadStorage("token")?.access;
+	const navigate = useNavigate();
+	const [isLoading, setIsLoading] = useState(true);
 
-	const { categories, loading: categoryLoading, refetch: categoryRefetch } = useGetCategories();
+	const [categories, setCategories] = useState([{
+		id: 1,
+		name: 'All'
+	}]);
 	const [categoryActive, setCategoryActive] = useState('All');
-	const { products, loading: productLoading, refetch: productRefetch } = useGetProducts(categoryActive);
+
+	const [products, setProducts] = useState([]);
+
+	useEffect(() => {
+		fetchCategories();
+	}, []);
+
+	useEffect(() => {
+		fetchProducts();
+	}, [categoryActive]);
+
+	const fetchCategories = async () => {
+		getCategories()
+			.then((res) => {
+				setCategories([{
+					id: 0,
+					name: 'All'
+				}]);
+				res.data.map((category) => {
+					setCategories((categories) => [...categories, category]);
+				});
+			})
+			.catch((err) => {
+				console.log(err);
+				setIsLoading(false);
+			});
+	};
+
+	const fetchProducts = async () => {
+		getProducts({ category: categoryActive })
+			.then((res) => {
+				setProducts(res.data.data);
+				setIsLoading(false);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
 
 	return (
 		<>
@@ -22,23 +64,24 @@ function HomePage() {
 			<Carousal />
 			<div className="page_container">
 				<div className="pls_container">
+					{/* {JSON.stringify(cart)} */}
 					<div className="product-list-small-top">
 						<h1>Products</h1>
 						<div className="product-list-small-top__category">
 							{categories.map((category) => (
 								<motion.div
 									key={category.id}
+									//if category is selected then make it bold
 									className={
 										category.name === categoryActive
 											? "product-list-small-top__category-btn product-list-small-top__category-btn--active"
 											: "product-list-small-top__category-btn"
 									}
-									onClick={() => {
+									//if category is selected then make it bold
+									onClick={() =>
 										setCategoryActive(
 											category.name === categoryActive ? "" : category.name
 										)
-										productRefetch(prev => !prev);
-									}
 									}
 								>
 									{category.name}
@@ -47,7 +90,7 @@ function HomePage() {
 						</div>
 					</div>
 					<div className="product-list-small">
-						{products?.map((product) => (
+						{products.map((product) => (
 							<Link key={product.id} className="no_decoration" to={`/product/${product.id}`}>
 								<motion.div className="product">
 									<img src={product.image || "https://organic1.storola.net/image/organic1.storola.net/cache/catalog/products/new_img/01_01-212x212.png"} alt={product.name} />
@@ -75,9 +118,9 @@ function HomePage() {
 								</motion.div>
 								<h3>{product.name}</h3>
 								<p>Available Stock {product.stock}</p>
-								<p>Price {product.price} AUD</p>
+								<p>Price {product.price}</p>
 								<p>
-									{/* {
+									{
 										[...Array(parseInt(product.avg_rating))].map((star, index) => (
 											<i className="fas fa-star" key={index}></i>
 										))
@@ -88,15 +131,7 @@ function HomePage() {
 											<i className="far fa-star" key={index}></i>
 										))
 
-									} */}
-
-
-									{/* full star */}
-									{'⭐'.repeat(product.avg_rating)}
-									{/* half star */}
-									{product.avg_rating % 1 !== 0 && '✬'}
-									{/* empty star */}
-									{'☆'.repeat(5 - product.avg_rating)}
+									}
 								</p>
 							</Link>
 						))}
