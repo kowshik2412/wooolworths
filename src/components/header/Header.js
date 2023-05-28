@@ -6,27 +6,13 @@ import { logo } from "../../utils/images";
 import { loadStorage } from "../../utils/persistLocalStorage";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import useGetCart from "../../hooks/useGetCart";
 
 export default function Header() {
     const user = loadStorage("user");
-    const accessToken = loadStorage("token")?.access;
     const navigate = useNavigate();
 
-    const [cartLength, setCartLength] = useState(0);
-    const [wishlistLength, setWishlistLength] = useState(0);
-
-    useEffect(() => {
-        if (!user) {
-            // navigate("/login");
-        } else {
-            fetchUserCart();
-            fetchUserWishlist();
-        }
-    }, []);
-
-    const fetchUserCart = async () => { };
-
-    const fetchUserWishlist = async () => { };
+    const { cart: cartItems, loading, refetch } = useGetCart(user.uid);
 
     return (
         <>
@@ -74,7 +60,6 @@ export default function Header() {
                             ) : (
                                 <>
                                     <div className="header__item">
-                                        {/* cart with number sup */}
                                         <Link
                                             className="no_decoration cart"
                                             to="/cart"
@@ -82,13 +67,12 @@ export default function Header() {
                                             <i className="fas fa-shopping-cart"></i>
                                             <sup className="cart__number">
                                                 <span>
-                                                    {cartLength}
+                                                    {cartItems.length}
                                                 </span>
                                             </sup>
                                         </Link>
                                     </div>
-                                    <div className="header__item">
-                                        {/* wishlist with number  sup*/}
+                                    {/* <div className="header__item">
                                         <Link className="no_decoration wishlist"
                                             to="/wishlist"
                                         >
@@ -97,9 +81,8 @@ export default function Header() {
                                                 <span>{wishlistLength}</span>
                                             </sup>
                                         </Link>
-                                    </div>
+                                    </div> */}
                                     <div className="header__item">
-                                        {/* user with number */}
                                         <Link className="no_decoration user"
                                             to="/profile"
                                         >

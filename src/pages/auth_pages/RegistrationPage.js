@@ -24,15 +24,6 @@ function RegistrationPage() {
 		if (!username || !password) {
 			return;
 		}
-
-		// registerUser({ username, email, name, password })
-		// 	.then((res) => {
-		// 		console.log(res);
-		// 		navigate("/login");
-		// 	})
-		// 	.catch((err) => {
-		// 		console.log(err);
-		// 	});
 	};
 
 	return (
