@@ -12,7 +12,7 @@ import UseAuth from "../../hooks/useAuth";
 import { addDoc, collection, getDocs, doc, query, updateDoc, where } from "firebase/firestore";
 
 function HomePage() {
-	const user = UseAuth();
+	const user = loadStorage("user");
 
 	const { categories, loading: categoryLoading, refetch: categoryRefetch } = useGetCategories();
 	const [categoryActive, setCategoryActive] = useState('All');
@@ -164,15 +164,19 @@ function HomePage() {
 										{'☆'.repeat(5 - product.avg_rating)}
 									</p>
 								</div>
-								<div className="product-actions">
-									{/* <i className="far fa-heart"></i> */}
-									<span onClick={() => addToCart(product)}>
-										<i
-											className="fas fa-shopping-cart"
-										></i>
-										Add to cart
-									</span>
-								</div>
+								{
+									user && (
+										<div className="product-actions">
+											{/* <i className="far fa-heart"></i> */}
+											<span onClick={() => addToCart(product)}>
+												<i
+													className="fas fa-shopping-cart"
+												></i>
+												Add to cart
+											</span>
+										</div>
+									)
+								}
 							</div>
 						))}
 					</div>
