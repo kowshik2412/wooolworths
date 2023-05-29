@@ -12,7 +12,7 @@ export default function Header() {
     const user = loadStorage("user");
     const navigate = useNavigate();
 
-    const { cart: cartItems, loading, refetch } = useGetCart(user.uid);
+    const { cart: cartItems, loading, refetch } = useGetCart(user?.uid);
 
     return (
         <>
