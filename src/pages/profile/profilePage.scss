@@ -55,15 +55,47 @@
 		.order-history {
 			margin-bottom: 20px;
 
-			.section-title {
-				font-size: 18px;
-				font-weight: bold;
+			.title_sec {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
 				margin-bottom: 10px;
+
+				.section-title {
+					font-size: 18px;
+					font-weight: bold;
+					margin-bottom: 10px;
+				}
+
+				.add-btn {
+					background-color: #51aa1b;
+					color: #fff;
+					border: none;
+					padding: 5px 10px;
+					font-weight: bold;
+					cursor: pointer;
+				}
 			}
 
 			.address-list,
 			.order-list {
-				.address-item,
+				.address-item {
+					display: flex;
+					flex-direction: column;
+					padding-bottom: 10px;
+					padding-top: 10px;
+					border-bottom: 1px solid #ccc;
+
+					.address-label {
+						font-weight: bold;
+						margin-right: 10px;
+					}
+				}
+
+				// .address-item:last-child {
+				// 	border-bottom: none;
+				// }
+
 				.order-item {
 					display: flex;
 					align-items: center;
