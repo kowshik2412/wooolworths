@@ -3,7 +3,7 @@ import useGetCart from '../../hooks/useGetCart';
 import './cartPage.scss';
 import { loadStorage } from '../../utils/persistLocalStorage';
 import Header from '../../components/header/Header';
-import { addDoc, collection, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
 import { db } from '../../firebase.config';
 import useGetAddresses from '../../hooks/useGetAddresses';
 
@@ -129,11 +129,16 @@ function CartPage() {
 		const cartDoc = initialQuerySnapshot.docs[0];
 
 		const itemsRef = doc(db, 'carts', cartDoc.id);
-		await updateDoc(itemsRef, {
-			items: [],
-		}).then(() => {
-			refetch((prev) => !prev);
-		});
+		// delete cart
+		await deleteDoc(itemsRef)
+			.then(() => {
+				refetch((prev) => !prev);
+			});
+		// await updateDoc(itemsRef, {
+		// 	items: [],
+		// }).then(() => {
+		// 	refetch((prev) => !prev);
+		// });
 
 		setSelectedAddress(null);
 		setSubtotal(0);
