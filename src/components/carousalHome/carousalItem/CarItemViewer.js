@@ -5,7 +5,9 @@ export default function CarItemViewer({ item }) {
     return (
         <div className="carousal-item">
             <div className="carousal-item__image">
-                <img src={item.image} alt="carousal item" />
+                <img src={item.image} alt="carousal item" style={{
+                
+                }} />
             </div>
             {item.title && (
                 <div

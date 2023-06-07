@@ -1,28 +1,35 @@
 @import "./../../../variables.scss";
+
 .carousal-item {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    .carousal-item__image {
-        width: 100%;
-        // height: 400px;
-        object-fit: cover;
-    }
+	position: relative;
+	width: 100%;
+	height: 100%;
 
-    .carousal-item__content {
-        position: absolute;
-        bottom: 0;
-        left: 15%;
-        padding: 20px;
-        width: 40%;
-        border-radius: 10px;
-        //hex color with opacity css
-        background: rgba(168, 168, 168, 0.8);
-        color: $primary-color;
+	.carousal-item__image {
+		width: 100%;
+		height: 450px;
+		margin: 0 auto;
+		object-fit: contain;
 
-        .carousal-item__title {
-        }
-        .carousal-item__description {
-        }
-    }
+		@media screen and (min-width: 1400px) {
+			width: 80%;
+		}
+	}
+
+	.carousal-item__content {
+		position: absolute;
+		bottom: 0;
+		left: 15%;
+		padding: 20px;
+		width: 40%;
+		border-radius: 10px;
+		//hex color with opacity css
+		background: rgba(168, 168, 168, 0.8);
+		color: $primary-color;
+
+		.carousal-item__title {
+		}
+		.carousal-item__description {
+		}
+	}
 }

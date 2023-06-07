@@ -14,11 +14,11 @@ export default function Carousal() {
     const items = [
         {
             id: 1,
-            image: "https://organic1.storola.net/image/organic1.storola.net/cache/catalog/slider/New/Organic1_1920_550_3-1920x550.png",
+            image: require("../../assets/slider-1.png"),
         },
         {
             id: 2,
-            image: "https://organic1.storola.net/image/organic1.storola.net/cache/catalog/slider/New/Organic1_1920_550_3-1920x550.png",
+            image: require("../../assets/slider-3.png"),
         },
         {
             id: 3,
