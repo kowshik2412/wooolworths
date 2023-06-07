@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
-    delStorage,
-    loadStorage,
-    saveStorage,
+    loadStorage
 } from "../../utils/persistLocalStorage";
 import Header from "../../components/header/Header";
 import './productDetails.scss';
 import { useNavigate } from "react-router-dom";
 import { formatDateTime } from "../../utils/utils";
 import useGetProduct from "../../hooks/useGetProduct";
-import { addDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase.config";
+import { addDoc, collection, getDocs, doc, query, updateDoc, where } from "firebase/firestore";
 
 
 const ProductDetailsPage = () => {
@@ -19,16 +17,9 @@ const ProductDetailsPage = () => {
 
     const { product, loading: productLoading, refetch: productRefetch } = useGetProduct(productId);
 
-    console.log(product);
-
-    const navigate = useNavigate();
-
-    const [productReviews, setProductReviews] = useState([]);
-
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
     const [reviewError, setReviewError] = useState("");
-    const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
 
     const createProductReview = async () => {
@@ -68,20 +59,88 @@ const ProductDetailsPage = () => {
         }).then((data) => {
             productRefetch((prev) => !prev);
         });
-
-        // addDoc(collection(db, "products"), {
-        //     postProductReview({ product: productId, user: user.id, rating: rating, comment: comment }, accessToken)
-        //         .then((res) => {
-        //             console.log(res.data);
-        //             fetchProductDetailsPage();
-        //         })
-        //         .catch((err) => {
-        //             console.log(err);
-        //             setReviewError(err.response.data.message);
-        //         });
     };
 
-    const addToCart = async (id) => { }
+    const addToCart = async (product) => {
+        try {
+            const q = query(
+                collection(db, "carts"),
+                where("user_id", "==", user.uid)
+            );
+            const initialQuerySnapshot = await getDocs(q);
+
+            if (initialQuerySnapshot.docs.length === 0) {
+                // create a new cart
+                const cartRef = collection(db, "carts");
+                const docRef = await addDoc(cartRef, {
+                    user_id: user.uid,
+                    items: [],
+                });
+
+                const cartItem = {
+                    product_id: product.id,
+                    product_name: product.name,
+                    product_price: product.price,
+                    product_image: product.image,
+                    quantity: 1, // You can customize the quantity as needed
+                };
+
+                // update docRef with the new cart item
+                updateDoc(docRef, {
+                    items: [cartItem],
+                });
+
+                console.log('Product added to cart successfully!');
+            } else {
+                // add to existing cart
+                const cartDoc = initialQuerySnapshot.docs[0];
+
+                const items = cartDoc.data().items;
+
+                const itemsRef = doc(db, 'carts', cartDoc.id);
+
+                if (items.length > 0) {
+                    const productQuerySnapshot = items.filter(item => item.product_id === product.id);
+
+                    if (productQuerySnapshot.length > 0) {
+                        // if product already exists in cart, update the quantity
+                        const itemDoc = productQuerySnapshot[0];
+
+                        await updateDoc(itemsRef, {
+                            items: items.map(item => {
+                                if (item.product_id === product.id) {
+                                    return {
+                                        ...item,
+                                        quantity: item.quantity + 1,
+                                    }
+                                }
+                                return item;
+                            }),
+                        });
+
+                        console.log('Product quantity updated successfully!');
+                    } else {
+                        // else add the product to cart
+                        const cartItem = {
+                            product_id: product.id,
+                            product_name: product.name,
+                            product_price: product.price,
+                            product_image: product.image,
+                            quantity: 1, // You can customize the quantity as needed
+                        };
+
+                        await updateDoc(itemsRef, {
+                            items: [...items, cartItem],
+                        });
+
+                        console.log('Product added to cart successfully!');
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('Error adding product to cart:', error);
+        }
+    };
 
     return (
         <>
@@ -133,9 +192,20 @@ const ProductDetailsPage = () => {
                                         </div>
 
                                         <div className="price">
-                                            <span>AUD </span>
+                                            Price:&nbsp;
                                             <span>{product.price || 'N/A'}</span>
+                                            <span>&nbsp;AUD</span>
                                         </div>
+                                        {
+                                            user && (
+                                                <div className="actions">
+                                                    <span onClick={() => addToCart(product)}>
+                                                        <i className="fas fa-shopping-cart"
+                                                        ></i>
+                                                        Add to cart
+                                                    </span>
+                                                </div>)
+                                        }
 
                                         {/* <div className="buttons">
                                         <div className="quantity">

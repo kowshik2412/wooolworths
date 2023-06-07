@@ -67,6 +67,34 @@
 								}
 							}
 						}
+
+						.actions {
+							display: flex;
+							align-items: center;
+							margin-top: 10px;
+
+							i {
+								font-size: 20px;
+								margin-right: 5px;
+								cursor: pointer;
+							}
+
+							span {
+								display: flex;
+								align-items: center;
+								cursor: pointer;
+								background-color: #51aa1b;
+								padding: 10px;
+								border-radius: 10px;
+								color: #fff;
+								box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+								i {
+									margin-right: 3px;
+									font-size: 16px;
+								}
+							}
+						}
 					}
 				}
 
