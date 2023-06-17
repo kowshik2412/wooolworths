@@ -1,16 +1,13 @@
 
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import "./header.scss";
-import { slide as Menu } from "react-burger-menu";
 import { logo } from "../../utils/images";
 import { loadStorage } from "../../utils/persistLocalStorage";
-import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import useGetCart from "../../hooks/useGetCart";
 
 export default function Header() {
     const user = loadStorage("user");
-    const navigate = useNavigate();
 
     const { cart: cartItems, loading, refetch } = useGetCart(user?.uid);
 
@@ -91,6 +88,13 @@ export default function Header() {
                                     </div>
                                 </>
                             )}
+                            <div className="header__item">
+                                <Link to="/contact-us"
+                                    className="no_decoration primary_button"
+                                >
+                                    Contact
+                                </Link>
+                            </div>
                     </div>
                 </div>
             </div>
